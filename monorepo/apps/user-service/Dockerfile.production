@@ -1,0 +1,23 @@
+# Use an official Node runtime as the base image
+FROM node:18-alpine
+
+# Working directory in the container for the user-service microservice
+WORKDIR /app
+
+# Update the list of available packages and their versions (apk update)
+# Install PostgreSQL client tools (interact with a PostgreSQL database directly from within the container, if needed for migrations)
+RUN apk update && apk add postgresql-client
+
+RUN npm install -g pnpm
+
+COPY ./package.json ./app/
+
+RUN pnpm i --filter=user-service
+
+COPY dist/apps/user-service ./dist/apps/user-service
+
+EXPOSE 3001
+
+# Starts Node.js app
+# dist/apps/user-service/main.js - path to the compiled JS file that starts the app
+CMD ["node", "dist/apps/user-service/main.js"]

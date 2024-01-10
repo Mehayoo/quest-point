@@ -1,0 +1,110 @@
+{
+  "name": "user-service",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/user-service/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/user-service",
+        "main": "apps/user-service/src/main.ts",
+        "tsConfig": "apps/user-service/tsconfig.app.json",
+        "assets": ["apps/user-service/src/assets"],
+        "webpackConfig": "apps/user-service/webpack.config.js",
+        "generatePackageJson": true
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "user-service:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "user-service:build:development"
+        },
+        "production": {
+          "buildTarget": "user-service:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/user-service/jest.config.ts"
+      }
+    },
+    "migration-create": {
+      "executor": "@nx/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "typeorm migration:create -d src/data-source.ts -n {args.name}",
+            "forwardAllArgs": true
+          },
+          {
+            "command": "node ../../etc/gen-migration-index",
+            "forwardAllArgs": false
+          }
+        ],
+        "cwd": "apps/user-service",
+        "parallel": false
+      }
+    },
+    "migration-generate": {
+      "executor": "@nx/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "typeorm migration:generate -d src/data-source.ts -n {args.name}",
+            "forwardAllArgs": true
+          },
+          {
+            "command": "node ../../etc/gen-migration-index",
+            "forwardAllArgs": false
+          }
+        ],
+        "cwd": "apps/user-service",
+        "parallel": false
+      }
+    },
+    "migration-run": {
+      "executor": "@nx/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --project tsconfig.orm.json && tsc-alias -p tsconfig.orm.json && typeorm migration:run -d src/data-source.ts"
+          }
+        ],
+        "cwd": "apps/user-service"
+      }
+    },
+    "migration-revert": {
+      "executor": "@nx/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --project tsconfig.orm.json && tsc-alias -p tsconfig.orm.json && typeorm migration:revert -d src/data-source.ts"
+          }
+        ],
+        "cwd": "apps/user-service"
+      }
+    }
+  },
+  "tags": []
+}
