@@ -15,12 +15,22 @@
         "main": "apps/user-service/src/main.ts",
         "tsConfig": "apps/user-service/tsconfig.app.json",
         "assets": ["apps/user-service/src/assets"],
-        "webpackConfig": "apps/user-service/webpack.config.js",
-        "generatePackageJson": true
+        "webpackConfig": "apps/user-service/webpack.config.js"
       },
       "configurations": {
         "development": {},
         "production": {}
+      }
+    },
+    "generate-package": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "node ../../etc/generate-microservice-package-json user-service"
+          }
+        ],
+        "cwd": "apps/user-service"
       }
     },
     "serve": {
@@ -50,7 +60,7 @@
       }
     },
     "migration-create": {
-      "executor": "@nx/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           {
@@ -58,7 +68,7 @@
             "forwardAllArgs": true
           },
           {
-            "command": "node ../../etc/gen-migration-index",
+            "command": "node ../../etc/generate-migration-index",
             "forwardAllArgs": false
           }
         ],
@@ -67,7 +77,7 @@
       }
     },
     "migration-generate": {
-      "executor": "@nx/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           {
@@ -84,7 +94,7 @@
       }
     },
     "migration-run": {
-      "executor": "@nx/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           {
@@ -95,7 +105,7 @@
       }
     },
     "migration-revert": {
-      "executor": "@nx/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           {

@@ -7,7 +7,7 @@ import { AppModule } from './app/app.module';
 async function bootstrap() {
   await AppDataSource.initialize()
     .then(() => {
-      Logger.log('Data Source has been initialized!');
+      Logger.log('\x1b[34m[Data Source has been initialized!]\x1b[0m');
     })
     .catch((err) => {
       Logger.error('Error during Data Source initialization', err);
@@ -24,7 +24,7 @@ async function bootstrap() {
   await app.listen(port);
 
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
   );
 }
 

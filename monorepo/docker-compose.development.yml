@@ -27,3 +27,9 @@ services:
       - "5050:80"
     depends_on:
       - postgres
+
+# Create and manage the volume named postgres_data
+# This volume is used by PostgreSQL service to store database data persistently
+# The database data will now be stored in the postgres_data volume, ensuring that it persists across Docker container restarts and even if the container is removed
+volumes:
+  postgres_data:
