@@ -64,7 +64,7 @@
       "options": {
         "commands": [
           {
-            "command": "typeorm migration:create -d src/data-source.ts -n {args.name}",
+            "command": "typeorm migration:create -d data-source.ts -n {args.name}",
             "forwardAllArgs": true
           },
           {
@@ -81,11 +81,15 @@
       "options": {
         "commands": [
           {
-            "command": "typeorm migration:generate -d src/data-source.ts -n {args.name}",
+            "command": "tsc --project tsconfig.orm.json && tsc-alias -p tsconfig.orm.json",
+            "forwardAllArgs": false
+          },
+          {
+            "command": "ts-node -r tsconfig-paths/register ../../node_modules/typeorm/cli.js migration:generate -d data-source.ts firstTestMigration",
             "forwardAllArgs": true
           },
           {
-            "command": "node ../../etc/gen-migration-index",
+            "command": "node ../../etc/generate-migration-index",
             "forwardAllArgs": false
           }
         ],
@@ -98,7 +102,7 @@
       "options": {
         "commands": [
           {
-            "command": "tsc --project tsconfig.orm.json && tsc-alias -p tsconfig.orm.json && typeorm migration:run -d src/data-source.ts"
+            "command": "tsc --project tsconfig.orm.json && tsc-alias -p tsconfig.orm.json && ts-node -r tsconfig-paths/register ../../node_modules/typeorm/cli.js migration:run -d data-source.ts"
           }
         ],
         "cwd": "apps/user-service"
@@ -109,7 +113,7 @@
       "options": {
         "commands": [
           {
-            "command": "tsc --project tsconfig.orm.json && tsc-alias -p tsconfig.orm.json && typeorm migration:revert -d src/data-source.ts"
+            "command": "tsc --project tsconfig.orm.json && tsc-alias -p tsconfig.orm.json && typeorm migration:revert -d data-source.ts"
           }
         ],
         "cwd": "apps/user-service"
