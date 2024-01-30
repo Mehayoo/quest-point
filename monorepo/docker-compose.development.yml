@@ -1,3 +1,4 @@
+# run "docker-compose --env-file .env.development -f docker-compose.development.yml up"
 version: '3.0'
 
 services:

@@ -17,7 +17,8 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "ES2019"
+    "target": "ES2019",
+    "strictPropertyInitialization": false
   },
   "exclude": ["node_modules", "tmp"],
   "include": ["**/*.ts"]

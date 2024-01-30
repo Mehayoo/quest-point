@@ -26,7 +26,8 @@ const migrationDir = path.resolve(appDir, migrationSourceDir);
 const targetFile = path.resolve(appDir, `src/${targetFileName}.generated.ts`);
 
 const fileRegex = /^(?<tstmp>\d+)-(?<desc>.*)\.ts$/;
-const filesInfos = readdirSync(migrationDir)
+const filesInfos = fs
+  .readdirSync(migrationDir)
   .map((f) => fileRegex.exec(f))
   .filter(Boolean)
   .map((a) => ({
